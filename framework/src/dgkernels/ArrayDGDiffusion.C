@@ -46,7 +46,7 @@ ArrayDGDiffusion::initQpResidual(Moose::DGResidualType type)
               "'diff' size is inconsistent with the number of components of array "
               "variable");
 
-  const unsigned int elem_b_order = _var.order();
+  const unsigned int elem_b_order = std::max(1, _var.order());
   const Real h_elem =
       _current_elem_volume / _current_side_volume * 1. / Utility::pow<2>(elem_b_order);
 
@@ -90,7 +90,7 @@ ArrayDGDiffusion::computeQpJacobian(Moose::DGJacobianType type)
 {
   RealEigenVector r = RealEigenVector::Zero(_count);
 
-  const unsigned int elem_b_order = _var.order();
+  const unsigned int elem_b_order = std::max(1, _var.order());
   const double h_elem =
       _current_elem_volume / _current_side_volume * 1. / Utility::pow<2>(elem_b_order);
 

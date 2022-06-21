@@ -44,9 +44,10 @@ DGDiffusion::computeQpResidual(Moose::DGResidualType type)
 {
   Real r = 0;
 
-  const unsigned int elem_b_order = std::max(1, _var.order());
+  const unsigned int elem_b_order = std::max((libMesh::Order)1, _var.order());
   const double h_elem =
       _current_elem_volume / _current_side_volume * 1. / Utility::pow<2>(elem_b_order);
+
 
   switch (type)
   {
@@ -58,6 +59,7 @@ DGDiffusion::computeQpResidual(Moose::DGResidualType type)
       r += _epsilon * 0.5 * (_u[_qp] - _u_neighbor[_qp]) * _diff[_qp] * _grad_test[_i][_qp] *
            _normals[_qp];
       r += _sigma / h_elem * (_u[_qp] - _u_neighbor[_qp]) * _test[_i][_qp];
+      std::cout << " Moose::Element  c" << _current_elem->id() << " n" << _neighbor_elem->id()<< " r "<<r<<"       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
       break;
 
     case Moose::Neighbor:
@@ -68,6 +70,7 @@ DGDiffusion::computeQpResidual(Moose::DGResidualType type)
       r += _epsilon * 0.5 * (_u[_qp] - _u_neighbor[_qp]) * _diff_neighbor[_qp] *
            _grad_test_neighbor[_i][_qp] * _normals[_qp];
       r -= _sigma / h_elem * (_u[_qp] - _u_neighbor[_qp]) * _test_neighbor[_i][_qp];
+      std::cout << " Moose::Neighbor c" << _current_elem->id() << " n" << _neighbor_elem->id()<< " r " << r << "       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
       break;
   }
 
@@ -79,7 +82,7 @@ DGDiffusion::computeQpJacobian(Moose::DGJacobianType type)
 {
   Real r = 0;
 
-  const unsigned int elem_b_order = std::max(1, _var.order());
+  const unsigned int elem_b_order = std::max((libMesh::Order)1, _var.order());
   const double h_elem =
       _current_elem_volume / _current_side_volume * 1. / Utility::pow<2>(elem_b_order);
 
@@ -89,6 +92,9 @@ DGDiffusion::computeQpJacobian(Moose::DGJacobianType type)
       r -= 0.5 * _diff[_qp] * _grad_phi[_j][_qp] * _normals[_qp] * _test[_i][_qp];
       r += _epsilon * 0.5 * _phi[_j][_qp] * _diff[_qp] * _grad_test[_i][_qp] * _normals[_qp];
       r += _sigma / h_elem * _phi[_j][_qp] * _test[_i][_qp];
+
+      // std::cout << "Moose::Element _grad_phi[_j][_qp] "<< _grad_phi[_j][_qp]<<"_grad_phi_neighbor[_j][_qp]"<<_grad_phi_neighbor[_j][_qp]<<std::endl;
+
       break;
 
     case Moose::ElementNeighbor:
@@ -111,6 +117,7 @@ DGDiffusion::computeQpJacobian(Moose::DGJacobianType type)
       r += _epsilon * 0.5 * -_phi_neighbor[_j][_qp] * _diff_neighbor[_qp] *
            _grad_test_neighbor[_i][_qp] * _normals[_qp];
       r -= _sigma / h_elem * -_phi_neighbor[_j][_qp] * _test_neighbor[_i][_qp];
+            // std::cout << "Moose::NeighborNeighbor _grad_phi[_j][_qp] "<< _grad_phi[_j][_qp]<<"_grad_phi_neighbor[_j][_qp]"<<_grad_phi_neighbor[_j][_qp]<<std::endl;
       break;
   }
 

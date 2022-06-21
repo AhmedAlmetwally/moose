@@ -222,6 +222,7 @@ TaggingInterface::prepareMatrixTagLower(Assembly & assembly,
 void
 TaggingInterface::accumulateTaggedLocalResidual()
 {
+  std::cout << "_re_blocks.size() = " << _re_blocks.size() << " _local_re.size() = "<< _local_re.size() <<'\n';
   for (auto & re : _re_blocks)
     *re += _local_re;
 }

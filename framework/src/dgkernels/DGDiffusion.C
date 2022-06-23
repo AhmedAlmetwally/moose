@@ -59,7 +59,7 @@ DGDiffusion::computeQpResidual(Moose::DGResidualType type)
       r += _epsilon * 0.5 * (_u[_qp] - _u_neighbor[_qp]) * _diff[_qp] * _grad_test[_i][_qp] *
            _normals[_qp];
       r += _sigma / h_elem * (_u[_qp] - _u_neighbor[_qp]) * _test[_i][_qp];
-      std::cout << " Moose::Element  c" << _current_elem->id() << " n" << _neighbor_elem->id()<< " r "<<r<<"       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
+    //  std::cout << " Moose::Element  c" <<_u[_qp] - _u_neighbor[_qp] << " n" << _neighbor_elem->id()<< " r "<<r<<"       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
       break;
 
     case Moose::Neighbor:
@@ -70,7 +70,7 @@ DGDiffusion::computeQpResidual(Moose::DGResidualType type)
       r += _epsilon * 0.5 * (_u[_qp] - _u_neighbor[_qp]) * _diff_neighbor[_qp] *
            _grad_test_neighbor[_i][_qp] * _normals[_qp];
       r -= _sigma / h_elem * (_u[_qp] - _u_neighbor[_qp]) * _test_neighbor[_i][_qp];
-      std::cout << " Moose::Neighbor c" << _current_elem->id() << " n" << _neighbor_elem->id()<< " r " << r << "       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
+    //  std::cout << " Moose::Neighbor c" << _u[_qp] - _u_neighbor[_qp] << " n" << _neighbor_elem->id()<< " r " << r << "       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
       break;
   }
 

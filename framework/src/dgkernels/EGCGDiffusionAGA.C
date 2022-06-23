@@ -56,12 +56,12 @@ EGCGDiffusionAGA::computeQpResidual(Moose::DGResidualType type)
   {
     case Moose::Element:
       r += _epsilon * 0.5 * (_v[_qp] - _v_neighbor[_qp]) * _diff[_qp] * _grad_test[_i][_qp] * _normals[_qp];
-      // std::cout << "Moose::Element _grad_test[_i][_qp] "<<_grad_test[_i][_qp]<<"  _grad_test_neighbor[_i][_qp]"<<_grad_test_neighbor[_i][_qp] <<" _v[_qp] - _v_neighbor[_qp] "<<_v[_qp] - _v_neighbor[_qp]<<std::endl;
+       // std::cout << "Moose::Element _grad_test[_i][_qp] "<<_grad_test[_i][_qp]<<"  _grad_test_neighbor[_i][_qp]"<<_grad_test_neighbor[_i][_qp] <<" _v[_qp] - _v_neighbor[_qp] "<<_v[_qp] - _v_neighbor[_qp]<<std::endl;
       break;
 
     case Moose::Neighbor:
       r += _epsilon * 0.5 * (_v[_qp] - _v_neighbor[_qp]) * _diff_neighbor[_qp] * _grad_test_neighbor[_i][_qp] * _normals[_qp];
-       // std::cout << "Moose::Neighbor _grad_test[_i][_qp]"<< _grad_test[_i][_qp]<<"_grad_test_neighbor[_i][_qp]"<<_grad_test_neighbor[_i][_qp]<<" _v[_qp] - _v_neighbor[_qp]"<<_v[_qp] - _v_neighbor[_qp]<<std::endl;
+        // std::cout << "Moose::Neighbor _grad_test[_i][_qp]"<< _grad_test[_i][_qp]<<"_grad_test_neighbor[_i][_qp]"<<_grad_test_neighbor[_i][_qp]<<" _v[_qp] - _v_neighbor[_qp]"<<_v[_qp] - _v_neighbor[_qp]<<std::endl;
       break;
   }
 

@@ -36,10 +36,10 @@ EGDGDiffusionAGA::EGDGDiffusionAGA(const InputParameters & parameters)
     _grad_v_neighbor(coupledNeighborGradient("v")),
     _v_id(coupled("v"))
 {
-  if (_var.feType() != FEType(CONSTANT, MONOMIAL))
-    paramError("variable", "Must be of type CONSTANT MONOMIAL");
-  if (_v_var.feType() != FEType(FIRST, LAGRANGE))
-    paramError("variable", "Must be of type FIRST LAGRANGE");
+  // if (_var.feType() != FEType(CONSTANT, MONOMIAL))
+  //   paramError("variable", "Must be of type CONSTANT MONOMIAL");
+  // if (_v_var.feType() != FEType(FIRST, LAGRANGE))
+  //   paramError("variable", "Must be of type FIRST LAGRANGE");
 }
 
 Real
@@ -63,16 +63,30 @@ EGDGDiffusionAGA::computeQpResidual(Moose::DGResidualType type)
       r -= 0.5 * (_diff[_qp] * _grad_v[_qp] * _normals[_qp] +
                   _diff_neighbor[_qp] * _grad_v_neighbor[_qp] * _normals[_qp]) *
            _test[_i][_qp];
+
+ // std::cout << "Moose::Element _grad_v[_qp] "<< _grad_v[_qp]<<"      _grad_v_neighbor[_qp] "<<  _grad_v_neighbor[_qp] <<"     _test[_i][_qp] "<<_test[_i][_qp] <<std::endl;
+
   // std::cout << "Moose::Element _grad_v[_qp] "<< _grad_u[_qp]<<"       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
+
+
+  // std::cout << "Moose::Element r "<<r<< std::endl;
       break;
 
     case Moose::Neighbor:
       r += 0.5 * (_diff[_qp] * _grad_v[_qp] * _normals[_qp] +
                   _diff_neighbor[_qp] * _grad_v_neighbor[_qp] * _normals[_qp]) *
            _test_neighbor[_i][_qp];
+
+ // std::cout << "Moose::Neighbor _grad_v[_qp] "<< _grad_v[_qp]<<"      _grad_v_neighbor[_qp] "<<  _grad_v_neighbor[_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp] <<std::endl;
+
  // std::cout << "Moose::Neighbor _grad_v[_qp] "<< _grad_u[_qp]<<"       _test[_i][_qp] "<< _test[_i][_qp] <<"     _test_neighbor[_i][_qp] "<<_test_neighbor[_i][_qp]<<std::endl;
+
+// std::cout << "Moose::Neighbor r "<<r<< std::endl;
+
       break;
   }
+
+// std::cout << "  r "<<r<< std::endl;
 
   return r;
 }
